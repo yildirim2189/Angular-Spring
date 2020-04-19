@@ -1,0 +1,63 @@
+<form class="example-form" #f="ngForm" fxLayout="row" fxLayoutGap="40px" fxLayout.xs="column"
+(ngSubmit)="f.form.valid && addTask(todo.value);" novalidate>
+    <div fxFlex="80%" fxFlexAlign="center">
+        <mat-form-field class="example-full-width" style="margin-bottom:20px" color="accent">
+            <mat-label>{{ 'task.label' | translate }}</mat-label>
+            <input name="todo" #todo matInput [(ngModel)]="inputVal" placeholder="{{ 'task.placeholder' | translate }}" 
+            required maxlength="256">
+            <mat-hint>{{ 'task.hint' | translate }}</mat-hint>
+            <mat-hint align="end">{{todo.value?.length || 0}}/256</mat-hint>
+        </mat-form-field>
+    </div>
+
+    <div fxFlex fxFlexAlign="center">
+        <button type="submit" mat-raised-button id="add" color="accent">
+            <mat-icon color="secondary">add_circle</mat-icon>
+            <span style="margin-left: 15px;">{{ 'task.add.title' | translate }}</span>
+        </button>
+    </div>
+</form>
+<span *ngIf="f.errors?.required">{{error}}</span>
+<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
+    <mat-checkbox [(ngModel)]="checkDateTime" (change)="toggleDateTime()" color="accent">{{'task.pickDateTime' | translate}}</mat-checkbox>
+<div *ngIf="!disabledDateTime">
+    <mat-form-field color="accent">
+        <mat-label>{{'date'|translate}}</mat-label>
+        <input matInput [matDatepicker]="dpicker" disabled [(ngModel)]="pickedDate">
+        <mat-datepicker-toggle matSuffix [for]="dpicker"></mat-datepicker-toggle>
+        <mat-datepicker #dpicker [disabled]="disabledDateTime"></mat-datepicker>
+      </mat-form-field>
+</div>
+<div *ngIf="!disabledDateTime">
+    <mat-form-field color="accent">
+        <input matInput [(ngModel)]="pickedTime" type="time" placeholder="{{'time'|translate}}">
+    </mat-form-field>
+</div>
+</div>
+
+<div *ngFor="let item of tasks" style="margin-top: 5px;">
+    <mat-card id="{{item.id}}" style="display: flex; align-items: center; flex-wrap: wrap;" [ngClass]="{'done': item.done}">
+        <div style="overflow: hidden; overflow-wrap: break-word; flex: 1 1 auto;">
+            <span>{{item.content}}</span>
+        </div>
+        <div style="display: flex; flex-grow: 1; justify-content: flex-end; align-items: center;" >
+            <button *ngIf="!item.done" (click)="markDone(item.id)" mat-button matTooltip="{{ 'task.done.tooltip' | translate }}" matTooltipPosition="above">
+                <mat-icon>check_circle</mat-icon>
+            </button>
+            <button *ngIf="item.done" (click)="markUndone(item.id)" mat-button matTooltip="{{'task.undone.tooltip' | translate }}" matTooltipPosition="above">
+                <mat-icon>cancel</mat-icon>
+            </button>
+            <button matTooltip="{{'delete' | translate}}" (click)="deleteTask(item.id)" mat-button matTooltipPosition="above">
+                <mat-icon >delete</mat-icon>
+            </button>
+            <button (click)="editTask(item.id)" mat-button matTooltipPosition="above" matTooltip="{{'edit' | translate}}">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <span>{{item.date}}</span>
+        </div>
+    </mat-card>
+</div>
+
+
+
+

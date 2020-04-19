@@ -1,0 +1,97 @@
+{
+    "application":{
+        "title": "Uygulama"
+    },
+
+    "overview": {
+        "title": "Uygulamaya Genel Bakış",
+        "description": "Uygulamaya genel bakış açıklaması burada olacak."
+    },
+    "login": {
+        "title": "Giriş Yap",
+        "error": "Giriş yapılamadı:"
+    },
+    "logout":{
+        "title": "Çıkış Yap"
+    },
+    
+    "register": {
+        "title" : "Kayıt Ol",
+        "error" : "Kayıt başarısız:",
+        "success": "Başarıyla kayıt yapıldı!"
+    },
+
+    "username": {
+        "title": "Kullanıcı adı",
+        "placeholder": "Kullanıcı adı giriniz",
+        "hint": "Minimum 3, maksimum 20 karakter",
+        "required": "Kullanıcı adı gereklidir.",
+        "minLength" : "Kullanıcı adı en az 3 karakterden oluşmalıdır.",
+        "maxLength" : "Kullanıcı adı en fazla 20 karakterden oluşabilir.",
+        "exists": "Kullanıcı adı mevcut!"
+    }
+    ,
+    "password": {
+        "title": "Parola",
+        "placeholder": "Parolanızı giriniz",
+        "hint": "Minimum 6 karakter",
+        "required": "Parola gereklidir.",
+        "minLength" : "Parola en az 6 karakterden oluşmalıdır."
+    },
+    "email": {
+        "title": "Email",
+        "placeholder": "Email adresinizi giriniz",
+        "hint": "emailadresiniz@ornek.com",
+        "required": "Email adresi gereklidir.",
+        "notValid": "Lütfen geçerli bir email adresi giriniz."
+    },
+    
+    "task": {
+        "title": "Görevler",
+        "label": "Bir görev giriniz",
+        "placeholder": "Yapılacak işler",
+        "hint": "Maksimum 256 karakter",
+        "add": {
+            "title": "Görev Ekle",
+            "success": "Görev başarıyla eklendi!",
+            "error": "Görev eklerken bir hata oluştu!"
+        },
+        "delete": {
+            "success": "Görev başarıyla silindi!",
+            "error": "Görev silinirken bir hata oluştu!"
+        },
+        "edit": {
+            "title": "Görev Düzenle",
+            "success": "Görev başarıyla düzenlendi",
+            "cancel": "Görev düzenleme iptal edildi!",
+            "error": "Görev düzenlenirken bir hata oluştu!"
+        },
+        "pickDateTime": "Tarih & zaman seç",
+        "done": { 
+            "tooltip": "Yapıldı olarak işaretle",
+            "success": "Görev yapıldı! Tebrikler.",
+            "error": "Görev yapılırken bir hata oluştu."
+        },
+        "undone": {
+            "tooltip": "Yapılacak olarak işaretle",
+            "success": "Görev yapılacak olarak işaretlendi!",
+            "error": "Görev yapılacak olarak işaretlenirken bir hata oluştu!"
+        }
+        
+    },
+
+    "date": "Tarih",
+    "time": "Zaman",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "cancel": "İptal",
+    "changeLang": "Dil Değiştir",
+    "changeTheme": "Temayı Değiştir",
+
+    "error": {
+        "username" :{
+            
+            
+        }
+    }
+}

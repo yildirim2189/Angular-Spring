@@ -1,0 +1,93 @@
+{
+    "application": {
+        "title": "Application"
+    },
+
+    "overview": {
+        "title": "Application Overview",
+        "description": "Application description"
+    },
+    "login": {
+        "title": "Login",
+        "error": "Login failed:"
+    },
+    "logout": {
+        "title": "Logout"
+    },
+    "register": {
+        "title": "Register",
+        "error": "Sign up failed:",
+        "success": "Registration is successful!"
+    },
+    
+    "username": {
+        "title": "Username",
+        "placeholder": "Enter your username",
+        "hint": "Minimum 3, maximum 20 characters",
+        "required": "Username is required.",
+        "minLength": "Username must be at least 3 characters.",
+        "maxLength": "Username must not be more than 20 characters.",
+        "exists": "Username exists!"
+    },
+    "password": {
+        "title": "Password",
+        "placeholder": "Enter your password",
+        "hint": "Minimum 6 characters",
+        "required": "Password is required.",
+        "minLength": "Password must be at least 6 characters."
+    },
+    "email": {
+        "title": "Email",
+        "placeholder": "Enter your email",
+        "hint": "youremailaddress@example.com",
+        "required": "Email is required.",
+        "notValid": "Please enter a valid email address."
+
+    },
+    "task": {
+        "title": "Tasks",
+        "label": "Enter a task",
+        "placeholder": "To do",
+        "hint": "Maximum 256 characters",
+        "add": {
+            "title": "Add Task",
+            "success": "Task added successfully!",
+            "error": "An error occurred while adding task!"
+        },
+        "delete": {
+            "success": "Task deleted successfully!",
+            "error": "An error occurred while adding task!"
+        },
+        "edit": {
+            "title": "Edit Task",
+            "success": "Task edited successfully!",
+            "cancel": "Task editing canceled!",
+            "error": "An error occurred while editing task!"
+        },
+        "pickDateTime": "Pick date & time",
+        "done": { 
+            "tooltip": "Mark as done",
+            "success": "Task is done! Congratulations.",
+            "error": "An error occurred while task is marked done!"
+        },
+        "undone": {
+            "tooltip": "Mark as undone",
+            "success": "Task is marked undone!",
+            "error": "An error occurred while task is marked undone!"
+        }
+    },
+    "date": "Date",
+    "time": "Time",
+    "delete": "Delete",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "changeLang": "Change language",
+    "changeTheme": "Change Theme",
+
+    "error": {
+        "username" :{
+            
+            
+        }
+    }
+}

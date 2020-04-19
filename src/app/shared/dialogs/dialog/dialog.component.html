@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>{{data.name}}</h1>
+<div mat-dialog-content>
+  <mat-form-field style="width: 100%;" color="accent" >
+    <mat-label>Task number #0972</mat-label>
+    <input matInput [(ngModel)]="data.task.content" />
+  </mat-form-field>
+  <mat-form-field color="accent">
+    <mat-label>{{'date' | translate}}</mat-label>
+    <input matInput [matDatepicker]="dpicker" disabled [(ngModel)]="data.task.date">
+    <mat-datepicker-toggle matSuffix [for]="dpicker"></mat-datepicker-toggle>
+    <mat-datepicker #dpicker [disabled]="false"></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field color="accent">
+    <input matInput [(ngModel)]="pickedTime" type="time" placeholder="{{'time' | translate}}">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onNoClick()">{{ 'cancel' | translate }}</button>
+  <button mat-raised-button (click)="onClick()" cdkFocusInitial>{{'edit' | translate}}</button>
+</div>

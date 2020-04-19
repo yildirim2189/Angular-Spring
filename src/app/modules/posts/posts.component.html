@@ -1,0 +1,27 @@
+
+<mat-tab-group>
+    <mat-tab label="Icons">
+        <h5>Icons Testing.</h5>
+        <mat-icon> 3d_rotation </mat-icon>
+        <button mat-icon-button>
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-tab>
+    <mat-tab label="Inpus">
+        <mat-form-field appearance="standard">
+            <mat-label>Standard form field</mat-label>
+            <input matInput placeholder="Placeholder">
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+            <mat-hint>Hint</mat-hint>
+          </mat-form-field>
+          <mat-form-field hintLabel="Max 10 characters" appearance="fill">
+            <mat-label>Enter some input</mat-label>
+            <input matInput #inputTest maxlength="10" placeholder="Ex. Nougat">
+            <mat-hint align="end">{{inputTest.value?.length || 0}}/10</mat-hint>
+          </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Third"> <p>{{inputTest.value}}</p></mat-tab>
+  </mat-tab-group>
+
+
+  

@@ -1,0 +1,38 @@
+<mat-nav-list>
+    <div class="profile-card">
+        <div class="header">
+            <h4>{{user.username}}</h4>
+            <h6>{{user.email}}</h6>
+        </div>
+        <img src="https://ichef.bbci.co.uk/news/1024/branded_news/2051/production/_111037280_gettyimages-85209802.jpg"
+         alt="redpanda">
+    </div>
+    <mat-divider></mat-divider>
+    <h2 matSubheader>Pages</h2>
+    <a mat-list-item [routerLink]="['/']" routerLinkActive="list-item-active" >
+        <mat-icon>dashboard</mat-icon>Dashboard</a>
+    <a mat-list-item [routerLink]="['/']" routerLinkActive="list-item-active" >Post</a>
+    <a mat-list-item [routerLink]="['/tasks']" routerLinkActive="list-item-active" >
+       <mat-icon>assignment</mat-icon>{{ 'task.title' | translate }}</a>
+    <a mat-list-item [routerLink]="['/icons']" routerLinkActive="list-item-active" >Icons</a>
+    <mat-divider></mat-divider>
+    <h2 matSubheader>Tools</h2>
+    <a mat-list-item [routerLink]="['/']" routerLinkActive="list-item-active" >
+        <mat-icon>import_contacts</mat-icon>
+    </a>
+    <a mat-list-item [routerLink]="['/']" routerLinkActive="list-item-active" >
+        <mat-icon>contact_phone</mat-icon>
+    </a>
+    <a mat-list-item [routerLink]="['/']" routerLinkActive="list-item-active" >
+        <mat-icon>timeline</mat-icon>
+    </a>
+    <mat-divider></mat-divider>
+    <h2 matSubheader>Tools</h2>
+    <a mat-list-item [routerLink]="['/']" routerLinkActive="list-item-active" >
+        <mat-icon>import_contacts</mat-icon>
+    </a>
+    <a mat-list-item [routerLink]="['/']" routerLinkActive="list-item-active" >
+        <mat-icon>contact_phone</mat-icon>
+    </a>
+</mat-nav-list>
+
