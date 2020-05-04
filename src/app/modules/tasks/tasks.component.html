@@ -1,42 +1,42 @@
-<form class="example-form" #f="ngForm" fxLayout="row" fxLayoutGap="40px" fxLayout.xs="column"
-(ngSubmit)="f.form.valid && addTask(todo.value);" novalidate>
+<form class="form-width" #f="ngForm" fxLayout="row" fxLayoutGap="40px" fxLayout.xs="column"
+    (ngSubmit)="f.form.valid && addTask(taskContent.value, f);" novalidate>
     <div fxFlex="80%" fxFlexAlign="center">
-        <mat-form-field class="example-full-width" style="margin-bottom:20px" color="accent">
-            <mat-label>{{ 'task.label' | translate }}</mat-label>
-            <input name="todo" #todo matInput [(ngModel)]="inputVal" placeholder="{{ 'task.placeholder' | translate }}" 
-            required maxlength="256">
-            <mat-hint>{{ 'task.hint' | translate }}</mat-hint>
-            <mat-hint align="end">{{todo.value?.length || 0}}/256</mat-hint>
+        <mat-form-field class="w-100" style="margin-bottom:20px" color="accent">
+            <mat-label>{{'task.label' | translate}}</mat-label>
+            <input name="taskContent" #taskContent matInput [(ngModel)]="taskInput" 
+            placeholder="{{'task.placeholder' | translate}}" required maxlength="256">
+            <mat-hint>{{'task.hint' | translate}}</mat-hint>
+            <mat-hint align="end">{{taskContent.value?.length || 0}}/256</mat-hint>
         </mat-form-field>
     </div>
-
     <div fxFlex fxFlexAlign="center">
         <button type="submit" mat-raised-button id="add" color="accent">
-            <mat-icon color="secondary">add_circle</mat-icon>
-            <span style="margin-left: 15px;">{{ 'task.add.title' | translate }}</span>
+            <span>{{'task.add.title' | translate}}</span>
+            <mat-icon class="ml-20" color="secondary">add_circle</mat-icon>
         </button>
     </div>
 </form>
-<span *ngIf="f.errors?.required">{{error}}</span>
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
-    <mat-checkbox [(ngModel)]="checkDateTime" (change)="toggleDateTime()" color="accent">{{'task.pickDateTime' | translate}}</mat-checkbox>
-<div *ngIf="!disabledDateTime">
-    <mat-form-field color="accent">
-        <mat-label>{{'date'|translate}}</mat-label>
-        <input matInput [matDatepicker]="dpicker" disabled [(ngModel)]="pickedDate">
-        <mat-datepicker-toggle matSuffix [for]="dpicker"></mat-datepicker-toggle>
-        <mat-datepicker #dpicker [disabled]="disabledDateTime"></mat-datepicker>
-      </mat-form-field>
+    <mat-checkbox [(ngModel)]="checkDateTime" (change)="toggleDateTime()" color="accent">
+        {{'task.pickDateTime' | translate}}
+    </mat-checkbox>
+    <div *ngIf="!disabledDateTime" fxLayoutGap="20px">
+        <mat-form-field color="accent">
+            <mat-label>{{'date'|translate}}</mat-label>
+            <input matInput [matDatepicker]="dpicker" disabled [(ngModel)]="pickedDate">
+            <mat-datepicker-toggle matSuffix [for]="dpicker"></mat-datepicker-toggle>
+            <mat-datepicker #dpicker [disabled]="disabledDateTime"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field color="accent">
+            <input matInput [(ngModel)]="pickedTime" type="time" placeholder="{{'time'|translate}}">
+        </mat-form-field>
+    </div>
 </div>
-<div *ngIf="!disabledDateTime">
-    <mat-form-field color="accent">
-        <input matInput [(ngModel)]="pickedTime" type="time" placeholder="{{'time'|translate}}">
-    </mat-form-field>
+<div [hidden]="tasks.length < 1">
+    <mat-paginator showFirstLastButtons #taskPaginator [pageSizeOptions]="[5, 10, 25, 100]" class="mt-20"></mat-paginator>
 </div>
-</div>
-
-<div *ngFor="let item of tasks" style="margin-top: 5px;">
-    <mat-card id="{{item.id}}" style="display: flex; align-items: center; flex-wrap: wrap;" [ngClass]="{'done': item.done}">
+<div *ngFor="let item of obs | async" style="margin-top: 5px;">
+    <mat-card id="{{item.id}}" style="display: flex; align-items: center; flex-wrap: wrap;" [ngClass]="{'task-done': item.done}">
         <div style="overflow: hidden; overflow-wrap: break-word; flex: 1 1 auto;">
             <span>{{item.content}}</span>
         </div>

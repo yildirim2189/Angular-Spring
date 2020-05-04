@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
 import { Task } from '../modules/tasks/tasks.component';
 
 const API_URL = "http://localhost:8084/api/";
@@ -13,7 +12,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class TaskService {
 
   constructor(private httpClient: HttpClient) { }
 

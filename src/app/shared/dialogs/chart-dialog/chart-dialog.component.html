@@ -1,0 +1,98 @@
+<h1 mat-dialog-title>{{ data.name }}</h1>
+<div mat-dialog-content>
+    <mat-horizontal-stepper [linear]="true" #stepper>
+        <mat-step>
+            <ng-template matStepLabel>{{'chart.set.name' | translate}}</ng-template>
+            <form>
+                <mat-form-field style="width: 100%;" color="accent" >
+                    <mat-label>{{'chart.set.title' | translate}}</mat-label>
+                    <input matInput [(ngModel)]="chart.title" name="title" />
+                </mat-form-field>
+                <mat-form-field style="width: 100%;" color="accent" >
+                  <mat-label>{{'chart.set.description' | translate}}</mat-label>
+                  <input matInput [(ngModel)]="chart.description" name="title" />
+                </mat-form-field>
+                <mat-form-field style="width: 100%;" color="accent" >
+                    <mat-label>{{'chart.set.subtitle' | translate}}</mat-label>
+                    <input matInput [(ngModel)]="chart.subtitle" name="subtitle" />
+                </mat-form-field>
+                <mat-form-field style="width: 100%;" color="accent" >
+                    <mat-label>{{'chart.set.yAxisTitle' | translate}}</mat-label>
+                    <input matInput [(ngModel)]="chart.yAxis.title.text" name="yAxisText" />
+                </mat-form-field>
+                <mat-form-field style="width: 100%;" color="accent" >
+                    <mat-chip-list #categoryChipList aria-label="Add categories">
+                        <mat-chip *ngFor="let category of chart.xAxis.categories" [selectable]="selectable"
+                             [removable]="removable" (removed)="removeXAxisCategory(category)" color="accent">
+                            {{category}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input placeholder="{{'chart.set.newXCategory' | translate}} {{chart.xAxis.categories.length}}"
+                           [matChipInputFor]="categoryChipList"
+                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                           [matChipInputAddOnBlur]="addOnBlur"
+                           (matChipInputTokenEnd)="addXAxisCategory($event)">
+                    </mat-chip-list>
+                </mat-form-field>
+                <div>
+                    <button color="accent" mat-raised-button matStepperNext>{{'next' | translate}}</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <form>
+              <ng-template matStepLabel>{{'chart.set.data.name' | translate}}</ng-template>
+                <mat-chip-list #serieNameChipList>
+                    <mat-chip *ngFor="let serie of chart.series" [selectable]="selectable" [removable]="removable"
+                    (removed)="removeSerie(serie)" (click)="selectChip(serie)"
+                    [selected]="serie === selectedSerie">
+                        {{serie.name}}
+                        <mat-icon matChipRemove
+                        *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+                <mat-form-field style="margin-top: 20px;">
+                    <mat-label>{{'chart.set.data.title' | translate}}</mat-label>
+                    <input  matInput placeholder="Asia" [(ngModel)]="selectedSerie.name" required  name="dataName" />
+                </mat-form-field>
+              <mat-form-field style="width: 100%;" color="accent" >
+                <mat-chip-list #serieDataChipList aria-label="Data add">
+                    <mat-chip *ngFor="let item of selectedSerie.data" [selectable]="selectable"
+                         [removable]="removable" (removed)="removeSerieData(item)" color="accent">
+                        {{item}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                    <input placeholder="{{'chart.set.data.placeholder' | translate }}: {{chart.xAxis.categories[selectedSerie.data.length]}}
+                    {{selectedSerie.data.length}}/{{chart.xAxis.categories.length}}"
+                        [disabled] = "chart.xAxis.categories.length === selectedSerie.data.length"
+                       [matChipInputFor]="serieDataChipList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="addSerieData($event)" >
+                </mat-chip-list>
+            </mat-form-field>
+            <div>
+                <button mat-flat-button (click)="addNewData()" color="accent">{{'chart.set.data.add' | translate}}</button>
+            </div>
+              <div class="mt-20">
+                <button color="accent" mat-raised-button matStepperPrevious>{{'back' | translate}}</button>
+                <button color="accent" mat-raised-button matStepperNext>{{'next' | translate}}</button>
+              </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>{{'chart.set.done.title' | translate}}</ng-template>
+            <p>{{'chart.set.done.description' | translate}}</p>
+            <div>
+              <button color="accent" mat-raised-button matStepperPrevious>{{'back' | translate}}</button>
+              <button color="accent" mat-raised-button (click)="stepper.reset()">{{'reset' | translate}}</button>
+              <div mat-dialog-actions class="mt-20">
+                <button mat-raised-button color="warn" (click)="onNoClick()">{{ 'cancel' | translate }}</button>
+                <button mat-raised-button color="accent" (click)="onClick()" cdkFocusInitial>{{ 'chart.add.title' | translate}}</button>
+              </div>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>
+
+

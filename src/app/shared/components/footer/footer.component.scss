@@ -1,10 +1,1 @@
-/*footer{
-    padding: 20px;
-}*/
-@import '~@angular/material/theming';
 
-$primary: mat-palette($mat-indigo);
-
-.test{
-    background-color: mat-color($primary);
-}

@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from 'src/app/services/theme.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -12,13 +11,13 @@ import { Observable } from 'rxjs';
 export class HeaderComponent implements OnInit {
 
   @Output() toggleSideBarEvent: EventEmitter<any> = new EventEmitter();    
-  isDarkTheme: Observable<boolean>;
+  themes = this.themeService.getThemes();
 
-  constructor(private tokenStorageService: TokenStorageService, private translate: TranslateService
-    , private themeService: ThemeService) { }
+  constructor(private tokenStorageService: TokenStorageService, private translateService: TranslateService, 
+    private themeService: ThemeService) { }
 
   ngOnInit() {  
-    this.isDarkTheme = this.themeService.isDarkTheme;
+    this.themeService.setTheme(this.themeService.getTheme());
   }
 
   toggleSideBar(){
@@ -33,19 +32,11 @@ export class HeaderComponent implements OnInit {
     window.location.reload();
   }
 
-  changeTr(){this.translate.use('tr')}
-  changeEn(){this.translate.use('en')}
+  changeLanguage(language: string){
+    this.translateService.use(language);
+  }
 
-  /*if(this.tokenStorageService.getUser() == null && this.tokenStorageService.getToken() == null){
-    this.router.navigateByUrl("/login");
-    return false;
-}*/
-/*
-toggleDarkTheme(checked: boolean) {
-  this.themeService.setDarkTheme(checked);
-}*/
-changeTheme(theme){
-  this.themeService.setTheme(theme);
-}
-
+  changeTheme(theme: string){
+    this.themeService.setTheme(theme);
+  }
 }

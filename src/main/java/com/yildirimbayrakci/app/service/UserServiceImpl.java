@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public void deleteTask(String username, Long id) {
     User user = findUserByUsername(username);
-    user.removeTask(id);
+    boolean result = user.removeTask(id);
     userRepository.save(user);
     taskRepository.deleteById(id);
   }

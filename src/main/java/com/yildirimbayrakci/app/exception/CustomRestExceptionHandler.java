@@ -3,6 +3,7 @@ package com.yildirimbayrakci.app.exception;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -62,6 +63,32 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
       apiError, new HttpHeaders(), apiError.getStatus());
   }
 
+  
+
+  @ExceptionHandler({BadCredentialsException.class})
+  public ResponseEntity<Object> handleBadCredentials(BadCredentialsException ex, WebRequest request){
+    String error = "Bad credentials";
+    ApiError apiError =
+      new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error, Errors.BAD_CREDENTIALS);
+    return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+  }
+
+  @ExceptionHandler({UsernameAlreadyExistsException.class})
+  public ResponseEntity<Object> handleUsernameExistsException(UsernameAlreadyExistsException ex, WebRequest request){
+    String error = "Username already exists!";
+    ApiError apiError =
+      new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error, Errors.USERNAME_EXISTS);
+    return  new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+  }
+
+  @ExceptionHandler({EmailAlreadyExistsException.class})
+  public ResponseEntity<Object> handleEmailExistsException(EmailAlreadyExistsException ex, WebRequest request){
+    String error = "Email already exists!";
+    ApiError apiError =
+      new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error, Errors.EMAIL_EXISTS);
+    return  new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+  }
+
   /* This exception is thrown when method argument is not the expected type. */
   @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
   public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
@@ -109,7 +136,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler({ Exception.class })
   public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
     ApiError apiError = new ApiError(
-      HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
+      HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred", Errors.UNKNOWN_ERROR);
     return new ResponseEntity<Object>(
       apiError, new HttpHeaders(), apiError.getStatus());
   }

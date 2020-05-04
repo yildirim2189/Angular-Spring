@@ -1,24 +1,30 @@
-import { HTTP_INTERCEPTORS, HttpEvent } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpEvent, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { HttpInterceptor, HttpHandler, HttpRequest } from "@angular/common/http";
 import { TokenStorageService } from "../services/token-storage.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
-const TOKEN_HEADER_KEY = 'Authorization';
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor{
+    
+    constructor(
+        private tokenStorageService: TokenStorageService, 
+        private router: Router,
+        private snackBar: MatSnackBar ) {}
 
-    constructor(private tokenStorageService: TokenStorageService, private router: Router) {}
-
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        let authReq =  req;
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let authRequest =  request;
         const token = this.tokenStorageService.getToken();
         if(token != null){
-            authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token)});
+            let headers = new HttpHeaders({
+                'Authorization': 'Bearer ' + token,
+            });
+            authRequest = request.clone({headers});
         }
-        return next.handle(authReq).pipe(
+        return next.handle(authRequest).pipe(
             catchError(
                 (err, caught) => {
                     if(err.status === 401){
@@ -33,11 +39,15 @@ export class AuthInterceptor implements HttpInterceptor{
 
     handleAuthError() {
         this.tokenStorageService.signOut();
-        this.router.navigateByUrl("/login");
-        alert("Session is expired!")
+        this.snackBar.open("Session is expired", null, {
+            duration: 2000,
+            horizontalPosition: "center",
+            verticalPosition: "top"
+        });
+        setTimeout(() => {this.router.navigateByUrl("/login");}, 2000)
     }
 }
 
 export const authInterceptorProviders = [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true }
-  ];
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true } 
+];

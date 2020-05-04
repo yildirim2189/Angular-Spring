@@ -9,13 +9,11 @@ export class DefaultComponent implements OnInit {
 
   isSideBarOpened = true;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  toggleSideBar(){
+  toggleSideBar(event){
     this.isSideBarOpened = !this.isSideBarOpened;
   }
-
 }

@@ -9,15 +9,16 @@
     },
     "login": {
         "title": "Giriş Yap",
-        "error": "Giriş yapılamadı:"
+        "error": "Giriş Başarısız",
+        "success": "Başarıyla giriş yapıldı!"
     },
     "logout":{
         "title": "Çıkış Yap"
     },
-    
+
     "register": {
         "title" : "Kayıt Ol",
-        "error" : "Kayıt başarısız:",
+        "error" : "Kayıt başarısız",
         "success": "Başarıyla kayıt yapıldı!"
     },
 
@@ -36,7 +37,16 @@
         "placeholder": "Parolanızı giriniz",
         "hint": "Minimum 6 karakter",
         "required": "Parola gereklidir.",
-        "minLength" : "Parola en az 6 karakterden oluşmalıdır."
+        "minLength" : "Parola en az 6 karakterden oluşmalıdır.",
+        "show": "Parolayı göster",
+        "hide": "Parolayı gizle",
+        "confirm": {
+            "title": "Parola doğrula",
+            "placeholder": "Parolanızı tekrar giriniz",
+            "hint": "Parolanızı tekrar giriniz",
+            "required": "Parola doğrulama gereklidir.",
+            "mustMatch": "Parola alanları eşleşmelidir."
+        }
     },
     "email": {
         "title": "Email",
@@ -45,7 +55,7 @@
         "required": "Email adresi gereklidir.",
         "notValid": "Lütfen geçerli bir email adresi giriniz."
     },
-    
+
     "task": {
         "title": "Görevler",
         "label": "Bir görev giriniz",
@@ -57,8 +67,11 @@
             "error": "Görev eklerken bir hata oluştu!"
         },
         "delete": {
+            "title": "Görev Sil",
             "success": "Görev başarıyla silindi!",
-            "error": "Görev silinirken bir hata oluştu!"
+            "error": "Görev silinirken bir hata oluştu!",
+            "cancel": "Görev silme iptal edildi!",
+            "confirmText": "Seçilen görev silinecektir. Emin misiniz?"
         },
         "edit": {
             "title": "Görev Düzenle",
@@ -67,7 +80,7 @@
             "error": "Görev düzenlenirken bir hata oluştu!"
         },
         "pickDateTime": "Tarih & zaman seç",
-        "done": { 
+        "done": {
             "tooltip": "Yapıldı olarak işaretle",
             "success": "Görev yapıldı! Tebrikler.",
             "error": "Görev yapılırken bir hata oluştu."
@@ -77,9 +90,36 @@
             "success": "Görev yapılacak olarak işaretlendi!",
             "error": "Görev yapılacak olarak işaretlenirken bir hata oluştu!"
         }
-        
     },
-
+    "chart": {
+        "add": {
+            "title": "Grafik ekle"
+        },
+        "delete": {
+            "title": "Grafik Sil",
+            "confirmText": "Seçilen grafiği silmek istediğinize emin misiniz?",
+            "success": "Grafik başarıyla silindi!",
+            "cancel": "Grafik silme iptal edildi!"
+        },
+        "set": {
+            "name": "Grafik Ayarları",
+            "title": "Grafik Başlığı",
+            "description": "Grafik açıklaması",
+            "subtitle": "Grafik Alt Başlığı",
+            "yAxisTitle": "Dikey(y) Eksen Başlığı",
+            "newXCategory": "Yeni Kategori (Yatay Eksen)",
+            "data": {
+                "name": "Veri Gir",
+                "title": "Veri Adı",
+                "add": "Veriyi Ekle",
+                "placeholder": "Kategori için veri girin"
+            },
+            "done": {
+                "title": "Tamamlandı",
+                "description": "İşlem tamamlandı."
+            }
+        }
+    },
     "date": "Tarih",
     "time": "Zaman",
     "delete": "Sil",
@@ -87,11 +127,47 @@
     "cancel": "İptal",
     "changeLang": "Dil Değiştir",
     "changeTheme": "Temayı Değiştir",
+    "returnHome": "Anasayfaya Dön",
+    "next": "Sonraki Adım",
+    "back": "Önceki Adım",
+    "reset": "Başa Dön",
+
+    "pages": {
+        "title": "Sayfalar"
+    },
+    "dashboard": {
+        "title": "Dashboard Tr"
+    },
+    "calendar": {
+        "title": "Takvim"
+    },
+    "posts": {
+        "title": "Posts Tr"
+    },
+
+    "paginator": {
+      "itemPerPage": "Sayfa Başına Öğe",
+      "firstPage": "İlk sayfa",
+      "lastPage": "Son sayfa",
+      "nextPage": "Sonraki sayfa",
+      "previousPage": "Önceki sayfa",
+      "of": "gösteriliyor"
+    },
 
     "error": {
         "username" :{
-            
-            
-        }
+
+
+        },
+        "404": {
+            "title": "Sayfa Bulunamadı",
+            "description": "Aradığınız sayfa bulunamadı."
+        },
+
+
+        "100": "Hatalı kullanıcı adı ya da parola.",
+        "101": "Kullanıcı adı zaten mevcut. Lütfen farklı bir kullanıcı adı seçiniz.",
+        "102": "Email adresi zaten mevcut.",
+        "900": "Bilinmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."
     }
 }

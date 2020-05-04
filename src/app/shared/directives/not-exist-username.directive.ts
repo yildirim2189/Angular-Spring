@@ -13,12 +13,6 @@ import { AuthService } from 'src/app/services/auth.service';
 export class NotExistUsernameDirective implements Validator{
   constructor(private authService: AuthService){}
   validate(control: AbstractControl): ValidationErrors {
-    /*
-    if(control.value === 'xxx'){
-      return {"exists": true}
-    }else{
-      return null;
-    }*/
     
     if(control.value !== undefined && control.value !== null && control.value.length > 2 && control.value.trim().length > 2 ){
       console.log("entered control!");

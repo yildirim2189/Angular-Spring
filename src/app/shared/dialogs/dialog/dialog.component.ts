@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+//import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Task } from 'src/app/modules/tasks/tasks.component';
+import { Observable } from 'rxjs';
 
 export interface DialogData{
   name : string;
@@ -15,6 +17,7 @@ export interface DialogData{
 export class DialogComponent implements OnInit {
 
   pickedTime;
+  colorDate: Observable<any>;
 
   constructor(public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }

@@ -1,33 +1,87 @@
+@import "~@angular/material/prebuilt-themes/purple-green.css";
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~@angular/material/theming';
 @include mat-core();
 
-.default{
-  // color:red;
-  :host{
-    background-color: red;
-  }
-  $primary: mat-palette($mat-purple);
-  $accent: mat-palette($mat-red, A200, A100, A400);
+.default-theme{
+  
+  /*
+  color:white;
+  $primary: mat-palette($mat-purple, 700);
+  
   $warn: mat-palette($mat-red);
-  $theme: mat-light-theme($primary, $accent, $warn);
+  $theme: mat-dark-theme($primary, $accent, $warn);
   @include angular-material-theme($theme);
+  */
+  $accent: mat-palette($mat-green, A200, A100, A400);
+
+  .task-done{
+    background-color: #56b430;
+  }
+  
+  .theme-bg-1{
+    color:white;
+    background-color: black;
+  }
+
+  .footer-bg{
+    background-color: #7b1fa2;
+    color: white;
+  }
 }
 
 .light-theme{
-  $primary: mat-palette($mat-indigo);
+  $primary: mat-palette($mat-gray, 900);
   $accent: mat-palette($mat-pink, A200, A100, A400);
   $warn: mat-palette($mat-red);
-  $theme: mat-light-theme($primary, $accent, $warn);
-  
-  @include angular-material-theme($theme);
+  $theme-test: mat-light-theme($primary, $accent, $warn);
+
+  @include angular-material-theme($theme-test);
+  .theme-bg-1{
+    background-color: white;
+  }
+
+  .footer-bg{
+    background-color: mat-color($primary);
+    color: white;
+  }
+
 }
 // Our dark theme
 .dark-theme {
-    color: $light-primary-text;
-    $primary: mat-palette($mat-yellow);
+    $primary: mat-palette($mat-teal);
     $accent: mat-palette($mat-amber, A400, A100, A700);
     $warn: mat-palette($mat-red);
     $dark-theme: mat-dark-theme($primary, $accent, $warn);
-  
+
     @include angular-material-theme($dark-theme);
+
+    .theme-bg-1{
+      color:white;
+      background-color: black;
+    }
+    
+    .footer-bg{
+      background-color:  mat-color($primary);
+      color:white;
+    }
+  }
+
+  .last-theme {
+    $primary: mat-palette($mat-red, 900);
+    $accent: mat-palette($mat-yellow, 800, A100, A700);
+    $warn: mat-palette($mat-red);
+    $dark-theme: mat-light-theme($primary, $accent, $warn);
+
+    @include angular-material-theme($dark-theme);
+
+    .theme-bg-1{
+      color:white;
+      background-color: black;
+    }
+    
+    .footer-bg{
+      background-color:  mat-color($primary);
+      color:white;
+    }
   }

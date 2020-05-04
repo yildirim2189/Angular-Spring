@@ -9,17 +9,18 @@
     },
     "login": {
         "title": "Login",
-        "error": "Login failed:"
+        "error": "Login failed",
+        "success": "Logged in successfully!"
     },
     "logout": {
         "title": "Logout"
     },
     "register": {
         "title": "Register",
-        "error": "Sign up failed:",
+        "error": "Sign up failed",
         "success": "Registration is successful!"
     },
-    
+
     "username": {
         "title": "Username",
         "placeholder": "Enter your username",
@@ -34,7 +35,16 @@
         "placeholder": "Enter your password",
         "hint": "Minimum 6 characters",
         "required": "Password is required.",
-        "minLength": "Password must be at least 6 characters."
+        "minLength": "Password must be at least 6 characters.",
+        "show": "Show password",
+        "hide": "Hide password",
+        "confirm": {
+            "title": "Confirm password",
+            "placeholder": "Retype your password",
+            "hint": "Type your password again",
+            "required": "Confirm password is required.",
+            "mustMatch": "Passwords must match."
+        }
     },
     "email": {
         "title": "Email",
@@ -55,8 +65,11 @@
             "error": "An error occurred while adding task!"
         },
         "delete": {
+            "title": "Delete Task",
             "success": "Task deleted successfully!",
-            "error": "An error occurred while adding task!"
+            "error": "An error occurred while adding task!",
+            "cancel": "Task delete canceled!",
+            "confirmText": "The selected task will be deleted. Are you sure?"
         },
         "edit": {
             "title": "Edit Task",
@@ -65,7 +78,7 @@
             "error": "An error occurred while editing task!"
         },
         "pickDateTime": "Pick date & time",
-        "done": { 
+        "done": {
             "tooltip": "Mark as done",
             "success": "Task is done! Congratulations.",
             "error": "An error occurred while task is marked done!"
@@ -76,6 +89,35 @@
             "error": "An error occurred while task is marked undone!"
         }
     },
+    "chart": {
+        "add": {
+            "title": "Add chart"
+        },
+        "delete": {
+            "title": "Delete Chart",
+            "confirmText": "Selected chart will be deleted. Are you sure?",
+            "success": "Chart deleted successfully!",
+            "cancel": "Chart delete canceled!"
+        },
+        "set": {
+            "name": "Set Chart Options",
+            "title": "Chart Title",
+            "description": "Chart Description",
+            "subtitle": "Chart Subtitle",
+            "yAxisTitle": "Vertical(y) Axis Title",
+            "newXCategory": "New Category (Horizontal(x) Axis)",
+            "data": {
+                "name": "Enter Chart Data",
+                "title": "Data Name",
+                "add": "Add New Data",
+                "placeholder": "Enter data for category"
+            },
+            "done": {
+                "title": "Done",
+                "description": "You are done now."
+            }
+        }
+    },
     "date": "Date",
     "time": "Time",
     "delete": "Delete",
@@ -83,11 +125,47 @@
     "cancel": "Cancel",
     "changeLang": "Change language",
     "changeTheme": "Change Theme",
+    "returnHome": "Return Home",
+    "next": "Next",
+    "back": "Back",
+    "reset": "Reset",
+
+    "pages": {
+        "title": "Pages"
+    },
+    "dashboard": {
+        "title": "Dashboard"
+    },
+    "calendar": {
+        "title": "Calendar"
+    },
+    "posts": {
+        "title": "Posts"
+    },
+
+    "paginator": {
+      "itemPerPage": "Items per page",
+      "firstPage": "First page",
+      "lastPage": "Last page",
+      "nextPage": "Next page",
+      "previousPage": "Previous page",
+      "of": "of"
+    },
+
 
     "error": {
         "username" :{
-            
-            
-        }
+
+
+        },
+        "404": {
+            "title": "Page Not Found",
+            "description": "The page you are looking for, could not found."
+        },
+
+        "100": "Invalid username or password.",
+        "101": "Username already exists. Please choose another username.",
+        "102": "Email address already exists.",
+        "900": "Some unknown error occurred. Please try again later."
     }
 }

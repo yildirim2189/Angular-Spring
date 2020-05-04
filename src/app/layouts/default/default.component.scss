@@ -5,12 +5,13 @@
 }
 
 mat-drawer{
-    width: 300px;
+    width: 230px;
 }
 
-#main{
-    height: 90%;
+#mainContainer{
+    flex: 1 1 auto;
 }
+
 mat-drawer-content{
     padding: 20px;
 }

@@ -8,6 +8,7 @@ import { TasksComponent } from './modules/tasks/tasks.component';
 import { NoAuthGuard } from './helper/no-auth-guard';
 import { NonAuthenticatedComponent } from './layouts/non-authenticated/non-authenticated.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { CalendarComponent } from './modules/calendar/calendar.component';
 
 const routes: Routes = [
   // Logged in user routes
@@ -16,6 +17,7 @@ const routes: Routes = [
     {path: 'posts', component: PostsComponent},
     {path: 'icons', component: PostsComponent},
     {path: 'tasks', component: TasksComponent},
+    {path: 'calendar', component: CalendarComponent}
   ], canActivate: [NoAuthGuard]},
 
   // Non-logged user

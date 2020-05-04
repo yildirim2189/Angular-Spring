@@ -9,7 +9,6 @@ const httpOptions = {
   headers: new HttpHeaders({'Content-type' : 'application/json'})
 };
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -34,6 +33,7 @@ export class AuthService {
     }, httpOptions);
   }
 
+  /* Kullanılmıyor şu an. */
   checkIfUsernameExist(username: string){
     return this.httpClient.get(AUTH_API + 'username/' + username);
   }

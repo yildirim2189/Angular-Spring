@@ -1,61 +1,55 @@
 <mat-toolbar color="primary">
-    <span>Title</span>
-  <button mat-icon-button [matMenuTriggerFor]='menu'>
-      <mat-icon>language</mat-icon>
-  </button>
-  <mat-menu #menu='matMenu'>
-      <button mat-menu-item (click)="changeEn()">
-        <span class="flag-icon flag-icon-gb"></span>
-        <span>English</span>
-      </button>
-      <button mat-menu-item (click)="changeTr()">
-        <span class="flag-icon flag-icon-tr"></span>Türkçe
-    </button>
-  </mat-menu>
-
-  <li>
-    <button mat-icon-button [matMenuTriggerFor]='themeMenu' matTooltip="{{'changeTheme' | translate}}">
-        <mat-icon>brush</mat-icon>
-    </button>
-    <mat-menu #themeMenu='matMenu'>
-        <button mat-menu-item (click)="changeTheme('t1')">
-            <span>Default</span>
+  <mat-toolbar-row>
+    <span>{{'application.title' | translate}}</span>
+    <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+      <ul fxLayout="row" fxLayoutGap="20px">
+        <li>
+          <button mat-icon-button matTooltip="{{'changeLang' | translate}}" [matMenuTriggerFor]='langMenu'>
+            <mat-icon>language</mat-icon>
           </button>
-        <button mat-menu-item (click)="changeTheme('t2')">
-          <span>Theme 1</span>
-        </button>
-        <button mat-menu-item value="t3" (click)="changeTheme($event.value)">
-          <span>Theme 2</span>
-      </button>
-    </mat-menu>
-    <!-- <mat-slide-toggle [checked]="isDarkTheme | async" (change)="toggleDarkTheme($event.checked)">Dark theme</mat-slide-toggle>-->
-</li>
-    
+          <mat-menu #langMenu='matMenu' xPosition="before">
+            <button mat-menu-item (click)="changeLanguage('tr')" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+              <span class="flag-icon flag-icon-tr custom-line-height"></span>
+              <span>Türkçe</span>
+            </button>
+            <button mat-menu-item (click)="changeLanguage('en')" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" >
+              <span class="flag-icon flag-icon-gb custom-line-height"></span>
+              <span>English</span>
+            </button>
+          </mat-menu>
+        </li>  
+        <li>
+          <button mat-icon-button [matMenuTriggerFor]='themeMenu' matTooltip="{{'changeTheme' | translate}}">
+            <mat-icon>brush</mat-icon>
+          </button>
+          <mat-menu #themeMenu='matMenu'>
+            <button mat-menu-item *ngFor="let theme of themes" (click)="changeTheme(theme.key)">
+              <span>{{theme.name}}</span>
+            </button>
+          </mat-menu>
+        </li>
+      </ul>
+    </div>
+  </mat-toolbar-row>
 </mat-toolbar>
 <mat-tab-group>
-    <mat-tab label="{{ 'overview.title' | translate }}">
-        <div style=" padding: 20px;">
-          <p>{{ 'overview.description' | translate }}</p>
-        </div>
-    </mat-tab>
-    <mat-tab label="{{ 'login.title' | translate }}">
-        <!--
-        <mat-form-field appearance="standard">
-            <mat-label>Standard form field</mat-label>
-            <input matInput placeholder="Placeholder">
-            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-            <mat-hint>Hint</mat-hint>
-          </mat-form-field>
-          <mat-form-field hintLabel="Max 10 characters" appearance="fill">
-            <mat-label>Enter some input</mat-label>
-            <input matInput #inputTest maxlength="10" placeholder="Ex. Nougat">
-            <mat-hint align="end">{{inputTest.value?.length || 0}}/10</mat-hint>
-          </mat-form-field>
-        -->
-        <app-login></app-login>
-    </mat-tab>
-    <mat-tab label="{{'register.title' | translate}}">
-        <app-register></app-register>
-         <!-- <p>{{inputTest.value}}</p> -->
-    </mat-tab>
-  </mat-tab-group>
+  <mat-tab label="{{ 'overview.title' | translate }}">
+    <div class="p-20">
+      <p>{{ 'overview.description' | translate }}</p>
+      <ul class="circle-list">
+        <li>Spring Boot Back End</li>
+        <li>Angular 8 Front End</li>
+        <li>Angular Material</li>
+        <li>Highcharts</li>
+        <li>JWT Authentication</li>
+        <li>MySQL</li>
+      </ul>
+    </div>
+  </mat-tab>
+  <mat-tab label="{{ 'login.title' | translate }}">
+    <app-login></app-login>
+  </mat-tab>
+  <mat-tab label="{{'register.title' | translate}}">
+    <app-register></app-register>
+  </mat-tab>
+</mat-tab-group>

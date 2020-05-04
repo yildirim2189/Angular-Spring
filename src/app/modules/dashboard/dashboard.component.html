@@ -1,67 +1,87 @@
-<div>
-    <app-widget-area [data]="bigChart"></app-widget-area>
+<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
+  <button  mat-raised-button (click)="addChart()" color="accent" style="margin-bottom: 20px;">
+    {{'chart.add.title' | translate}}
+    <mat-icon>insert_chart</mat-icon>
+  </button>
+  <button mat-raised-button color="accent" (click)="test()">Test Add Action</button>
 </div>
-
-<br/>
-<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-<mat-divider></mat-divider>
-
-<br/>
-
+<!--   <div>
+    <mat-label>Chart Type: </mat-label>
+      <mat-form-field color="accent" appearance="standard">
+        <mat-select (selectionChange)="changeChartType($event)" placeholder="Select a chart type">
+          <mat-option value="area">Area Chart</mat-option>
+          <mat-option value="pie">Pie Chart</mat-option>
+          <mat-option value="line">Line Chart</mat-option>
+          <mat-option value="bar">Bar Chart</mat-option>
+          <mat-option value="scatter">Scatter Chart</mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div> -->
+<div [hidden]="charts.length < 1">
+  <mat-paginator showFirstLastButtons="true" #chartPaginator
+                [pageSizeOptions]="[5, 10, 25, 100]" class="mt-20">
+  </mat-paginator>
+</div>
+<mat-accordion>
+  <mat-expansion-panel class="mt-20" *ngFor="let item of obs | async">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{item.title}}</mat-panel-title>
+      <mat-panel-description>{{item.description}}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <div>
+      <app-widget-area #chartX [chart]="item"></app-widget-area>
+    </div>
+    <mat-action-row>
+        <button mat-raised-button color="accent" (click)="onAction(event)">Edit Chart</button>
+        <button mat-raised-button color="warn" (click)="deleteChart(item.id)">Delete Chart</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+<mat-divider class="my-20"></mat-divider>
 <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" class="stats-cards">
     <mat-card fxFlex="25">
-        <app-widget-card [data]="cards" label="Users" total="18k" percentage="50"></app-widget-card>
+        <app-widget-card [data]="cards" label="Usage" total="18k" percentage="50"></app-widget-card>
     </mat-card>
     <mat-card fxFlex="25">
-        <app-widget-card [data]="cards" label="Users" total="18k" percentage="50"></app-widget-card>
+        <app-widget-card [data]="cards" label="Stats" total="25k" percentage="50"></app-widget-card>
     </mat-card>
     <mat-card fxFlex="25">
-        <app-widget-card [data]="cards" label="Users" total="18k" percentage="50"></app-widget-card>
+        <app-widget-card [data]="cards" label="Test" total="12k" percentage="50"></app-widget-card>
     </mat-card>
     <mat-card fxFlex="25">
-        <app-widget-card [data]="cards" label="Users" total="18k" percentage="50"></app-widget-card>
+        <app-widget-card [data]="cards" label="Chart" total="44k" percentage="50"></app-widget-card>
     </mat-card>
 </div>
-<br/>
-<mat-divider></mat-divider>
-<br/>
+<mat-divider class="my-20"></mat-divider>
 <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
-    <div fxFlex="60">
-        <table mat-table [dataSource]="tableData" class="mat-elevation-z8">
-
-            <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
-          
-            <!-- Position Column -->
-            <ng-container matColumnDef="position">
-              <th mat-header-cell *matHeaderCellDef> No. </th>
-              <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-            </ng-container>
-          
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Name </th>
-              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            </ng-container>
-          
-            <!-- Weight Column -->
-            <ng-container matColumnDef="weight">
-              <th mat-header-cell *matHeaderCellDef> Weight </th>
-              <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-            </ng-container>
-          
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="symbol">
-              <th mat-header-cell *matHeaderCellDef> Symbol </th>
-              <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-            </ng-container>
-          
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-    </div>
-    <div fxFlex="40">
-        <app-widget-pie [data]="pie"></app-widget-pie>
-    </div>
+  <div fxFlex="60">
+    <table mat-table [dataSource]="tableData" class="mat-elevation-z8">
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+      <!-- Weight Column -->
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> Weight </th>
+        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef> Symbol </th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator #tablePaginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+  <div fxFlex="40">
+    <app-widget-pie [data]="pie"></app-widget-pie>
+  </div>
 </div>

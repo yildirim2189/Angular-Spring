@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PeriodicElement } from './dashboard/dashboard.component';
+import { PeriodicElement } from '../modules/dashboard/dashboard.component';
 
 @Injectable({
   providedIn: 'root'

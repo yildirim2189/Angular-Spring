@@ -1,10 +1,18 @@
-import { Component, OnInit} from '@angular/core';
-import { MatSnackBar, MatDialog, DateAdapter} from '@angular/material';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { DateAdapter } from '@angular/material/core';
 import { DialogComponent } from 'src/app/shared/dialogs/dialog/dialog.component';
-import * as _ from 'lodash';
 import { Observable } from 'rxjs';
-import { UserService } from 'src/app/services/user.service';
+import { TaskService } from 'src/app/services/task.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ThemeService } from 'src/app/services/theme.service';
+import { MatPaginator } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { ConfirmDialogComponent } from "../../shared/dialogs/confirm-dialog/confirm-dialog.component";
+import { NgForm } from '@angular/forms';
+
+import * as _ from 'lodash';
 
 export interface Task{
   id: number;
@@ -12,7 +20,6 @@ export interface Task{
   date: any;
   done: boolean
 }
-
 
 @Component({
   selector: 'app-tasks',
@@ -23,64 +30,85 @@ export class TasksComponent implements OnInit {
 
   obs: Observable<any>;
   tasks: Task[] = [];
-  error = '';
-  inputVal: string;
+  taskInput: string;
   pickedDate : Date = new Date();
   pickedTime: any = new Date().getHours() + ':' + new Date().getMinutes();
   checkDateTime: boolean = false;
   disabledDateTime: boolean = true;
-  
+
+  @ViewChild('taskPaginator', {static: true}) taskPaginator : MatPaginator;
+  dataSource: MatTableDataSource<Task> = new MatTableDataSource<Task>(this.tasks);
 
 
-  constructor(private snackBar : MatSnackBar, private dialog: MatDialog, private userService: UserService,
-    private translate: TranslateService, private dateAdapter: DateAdapter<Date>) {
-      this.dateAdapter.setLocale(this.translate.currentLang);
-      this.translate.onLangChange.subscribe(
-        change => {
-          this.dateAdapter.setLocale(change.lang)
-        }
-      )
-    }
-
-  ngOnInit() {
-      this.getTasks();
+  constructor(private snackBar : MatSnackBar, private dialog: MatDialog, private taskService: TaskService,
+    private translate: TranslateService, private dateAdapter: DateAdapter<Date>, private themeService: ThemeService,
+              private changeDetectorRef: ChangeDetectorRef) {
+    this.dateAdapter.setLocale(this.translate.currentLang);
+    this.translate.onLangChange.subscribe(
+      change => {
+        this.dateAdapter.setLocale(change.lang)
+      }
+    );
   }
 
-  addTask(input: string){
+  ngOnInit() {
+      this.changeDetectorRef.detectChanges();
+      this.dataSource.paginator = this.taskPaginator;
+      this.obs = this.dataSource.connect();//
+      this.getTasks();
+      this.themeService.setTheme(this.themeService.getTheme())
+  }
+
+  addTask(input: string, form: NgForm){
     if(input === '' || input.trim() === ''){
-      this.error = 'Please enter a task!';
+      //
     }else{
       let date = new Date();
       if(!this.disabledDateTime){
         date = this.pickedDate;
         date.setHours(this.pickedTime.split(":")[0], this.pickedTime.split(":")[1]);
       }
-      this.userService.addTask(input, date).subscribe(
+      this.taskService.addTask(input, date).subscribe(
         success => {
           this.getTasks();
           this.openSnackbar(this.translate.instant('task.add.success'));
-          this.clearInput();
-          console.log(success);
+          form.resetForm();
         },
         err => {
           console.error(err);
           this.openSnackbar(this.translate.instant('task.add.error'));
         }
       );
-    }      
+    }
   }
 
   deleteTask(id : number){
-    this.userService.deleteTask(id).subscribe(
-      success => {
-        this.getTasks();
-        this.openSnackbar(this.translate.instant('task.delete.success'));
-      }, 
-      err => {
-        console.error(err);
-        this.openSnackbar(this.translate.instant('task.delete.error'));
+    let dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minHeight: '200px',
+      minWidth: '350px',
+      data: {
+        title : this.translate.instant('task.delete.title'),
+        confirmYesTitle: this.translate.instant("delete"),
+        confirmText: this.translate.instant("task.delete.confirmText")
+      },
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      if(data === true){
+        this.taskService.deleteTask(id).subscribe(
+          success => {
+            this.getTasks();
+            this.openSnackbar(this.translate.instant('task.delete.success'));
+          },
+          err => {
+            console.error(err);
+            this.openSnackbar(this.translate.instant('task.delete.error'));
+          }
+        );
+      }else{
+        this.openSnackbar(this.translate.instant('task.delete.cancel'));
       }
-    );
+    })
+
   }
 
   editTask(id: number){
@@ -88,15 +116,9 @@ export class TasksComponent implements OnInit {
       return task.id === id;
     })
 
-    
     let copyTask = { ...this.tasks[index] }
-    console.log(copyTask)
-    console.log("TEst:" + copyTask.date.split(/[. :]/)) 
     copyTask.date = this.stringToDate(copyTask.date, false);
-    // var d = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
-    // console.log(new Date((d[2],d[1]-1,d[0],d[3],d[4],d[5])));
-    console.log(new Date(copyTask.date), "!!!")
-  
+
     // Show Dialog for edit
     let dialogRef = this.dialog.open(DialogComponent, {
       height: '300px',
@@ -104,78 +126,43 @@ export class TasksComponent implements OnInit {
       data: {
         name : this.translate.instant('task.edit.title'),
         task : copyTask
-      }
+      },
     });
-    console.log(copyTask.date, "123");
 
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined){
-        console.log(result, "qqq")
-        this.userService.updateTask({
-          id: id, 
+        this.taskService.updateTask({
+          id: id,
           content: result.content,
           date: result.date,
           done: result.done
         }).subscribe(
-          resp => { 
+          resp => {
             this.getTasks();
             this.openSnackbar(this.translate.instant('task.edit.success'));
           },
           err => { this.openSnackbar(this.translate.instant('task.edit.error')); }
         )
       }else{
-        console.log(result)
         this.openSnackbar(this.translate.instant('task.edit.cancel'));
       }
     });
   }
 
   getTasks(){
-    this.userService.getUserTasks().subscribe(
+    this.taskService.getUserTasks().subscribe(
       data => {
-        console.log(data)
         data.map(
-          task => {
+          (task: Task) => {
             task.date = this.stringToDate(task.date, true).toLocaleString();
-            /*
-            console.log(ts)
-            console.error(ts.date.toString());
-            console.error(ts.date.toDateString());
-            console.error(ts.date.toISOString());
-            console.error(ts.date.toUTCString());
-            console.error(ts.date.toGMTString());
-            console.error(ts.date.getDate());
-            console.error(ts.date.getDay());
-            console.error(ts.date.getFullYear());
-            console.error(ts.date.getHours());
-            console.error(ts.date.getMilliseconds());
-            console.error(ts.date.getMinutes());
-            console.error(ts.date.getMonth());
-            console.error(ts.date.getSeconds());
-            console.error(ts.date.getTime());
-            console.error(ts.date.getUTCDay());
-            console.error(ts.date.getUTCDate());
-            console.error(ts.date.getUTCFullYear());
-            console.error(ts.date.getUTCHours());
-            console.error(ts.date.getUTCMilliseconds());
-            console.error(ts.date.getUTCMinutes());
-            console.error(ts.date.getUTCMonth());
-            console.error(ts.date.getUTCSeconds());
-            console.error(ts.date.toJSON());
-            console.error(ts.date.toLocaleString());
-            console.error(ts.date.toLocaleTimeString());
-*/
           }
         );
         this.tasks = data;
+        this.dataSource.data = data;
       },
-      err => { console.log(err)}
+      err => { console.error(err)}
     )
   }
-
-  /*  let d = copyTask.date.split(/[. :]/);
-    // var d = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
-    // console.log(new Date((d[2],d[1]-1,d[0],d[3],d[4],d[5])));*/
 
   openSnackbar(message:string){
     this.snackBar.open(message, null, {
@@ -183,11 +170,6 @@ export class TasksComponent implements OnInit {
       horizontalPosition: "center",
       verticalPosition: "top"
     })
-  }
-
-  clearInput() {
-    //this.inputVal = "";
-    
   }
 
   toggleDateTime(){
@@ -200,7 +182,7 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  stringToDate(str, utc:boolean){
+  stringToDate(str: any, utc:boolean){
     let q = str.split(/[. :]/);
     if(utc === true){
       return new Date(Date.UTC(q[2],q[1]-1,q[0],q[3],q[4],q[5]));
@@ -208,15 +190,13 @@ export class TasksComponent implements OnInit {
     return new Date(q[2],q[1]-1,q[0],q[3],q[4],q[5]);
   }
 
-  markDone(id){
-    console.log("markDone")
+  markDone(id: number){
     let index = _.findIndex(this.tasks, function(task){
       return task.id === id;
     })
     this.tasks[index].done = true;
     this.tasks[index].date = null;
-    console.log(this.tasks[index])
-    this.userService.updateTask(this.tasks[index]).subscribe(
+    this.taskService.updateTask(this.tasks[index]).subscribe(
       success => {
         this.getTasks();
         this.openSnackbar(this.translate.instant('task.done.success'))
@@ -227,15 +207,13 @@ export class TasksComponent implements OnInit {
       }
     );
   }
-  markUndone(id){
-    console.log("markUndone")
+  markUndone(id: number){
     let index = _.findIndex(this.tasks, function(task){
       return task.id === id;
     })
     this.tasks[index].done = false;
     this.tasks[index].date = null;
-    console.log(this.tasks[index])
-    this.userService.updateTask(this.tasks[index]).subscribe(
+    this.taskService.updateTask(this.tasks[index]).subscribe(
       success => {
         this.getTasks();
         this.openSnackbar(this.translate.instant('task.undone.success'))

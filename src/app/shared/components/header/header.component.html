@@ -1,4 +1,4 @@
-<mat-toolbar color="secondary">
+<mat-toolbar color="primary">
     <mat-toolbar-row>
         <button mat-icon-button (click)="toggleSideBar()">
             <mat-icon>menu</mat-icon>
@@ -26,13 +26,14 @@
                         <mat-icon>language</mat-icon>
                     </button>
                     <mat-menu #langmenu='matMenu'>
-                        <button mat-menu-item (click)="changeEn()">
-                          <span class="flag-icon flag-icon-gb"></span>
+                        <button mat-menu-item (click)="changeLanguage('tr')" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+                            <span class="flag-icon flag-icon-tr custom-line-height"></span>
+                            <span>Türkçe</span>
+                        </button>
+                        <button mat-menu-item (click)="changeLanguage('en')" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+                          <span class="flag-icon flag-icon-gb custom-line-height"></span>
                           <span>English</span>
                         </button>
-                        <button mat-menu-item (click)="changeTr()">
-                          <span class="flag-icon flag-icon-tr"></span>Türkçe
-                      </button>
                     </mat-menu>
                 </li>
                 <li>
@@ -40,15 +41,9 @@
                         <mat-icon>brush</mat-icon>
                     </button>
                     <mat-menu #themeMenu='matMenu'>
-                        <button mat-menu-item (click)="changeTheme('t1')">
-                            <span>Default</span>
-                          </button>
-                        <button mat-menu-item (click)="changeTheme('t2')">
-                          <span>Theme 1</span>
+                        <button mat-menu-item *ngFor="let theme of themes" (click)="changeTheme(theme.key)">
+                            <span>{{theme.name}}</span>
                         </button>
-                        <button mat-menu-item value="t3" (click)="changeTheme($event.value)">
-                          <span>Theme 2</span>
-                      </button>
                     </mat-menu>
                     <!-- <mat-slide-toggle [checked]="isDarkTheme | async" (change)="toggleDarkTheme($event.checked)">Dark theme</mat-slide-toggle>-->
                 </li>

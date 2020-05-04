@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-login',
@@ -11,26 +13,22 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LoginComponent implements OnInit {
 
-  // Variables
   form: any = {};
   isLoggedIn: boolean = false;
-  hide: boolean = true;
+  hidePassword: boolean = true;
   isLoginFailed: boolean = false;
-  errorMessage: string = '';
-  roles: string[] = [];
   isLoginButtonDisabled: boolean = false;
   isShowSpinner: boolean = false;
+  errorCode: number;
 
   param = { value: 'world'}
 
-  constructor(private authService: AuthService, private tokenStorageService: TokenStorageService, private router: Router) { 
-
-    }
+  constructor(private authService: AuthService, private tokenStorageService: TokenStorageService, private router: Router,
+    private snackbar: MatSnackBar, private translate: TranslateService, private errorService: ErrorService) {}
 
   ngOnInit() {
     if(this.tokenStorageService.getToken()){
       this.isLoggedIn = true;
-      this.roles = this.tokenStorageService.getUser().roles;
     }
   }
 
@@ -43,18 +41,20 @@ export class LoginComponent implements OnInit {
         this.tokenStorageService.saveUser(data);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        this.roles = this.tokenStorageService.getUser().roles;
-        this.router.navigateByUrl("/");
+        this.snackbar.open(this.translate.instant('login.success'), null, {
+          duration: 2000,
+          horizontalPosition: "center",
+          verticalPosition: "top"
+        });
+        setTimeout(() => this.router.navigateByUrl("/") , 2000);
       },
       err => {
         console.error(err);
-        this.errorMessage = err.error.message;
+        this.errorCode = err.error.code;
         this.isLoginFailed = true;
         this.isLoginButtonDisabled = false;
         this.isShowSpinner = false;
       }
     );
-    
   }
-
 }

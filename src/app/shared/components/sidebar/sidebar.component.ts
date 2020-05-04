@@ -11,10 +11,8 @@ export class SidebarComponent implements OnInit {
 
   constructor(private tokenStorageService: TokenStorageService) { }
 
+  // todo bunu userservisten alsın. yazılacak!
   user = this.tokenStorageService.getUser();
 
-  ngOnInit() {
-    console.log(this.user)
-  }
-
+  ngOnInit() {}
 }

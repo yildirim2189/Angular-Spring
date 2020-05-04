@@ -1,11 +1,23 @@
-// @import '~@angular/material/theming';
-
-// $primary: mat-palette($mat-green);
+ul li{
+    list-style: none;
+}
 
 :host{
     display: flex;
     flex-direction: column;
-    height: 100%;
-    background-color: black;
-    //background-color: $primary;
+    min-height: 100%;
+}
+
+.p-20{
+    padding: 20px;
+}
+
+.circle-list{
+    li{
+        list-style: circle;
+    }
+}
+
+.custom-line-height{
+    line-height: 2em !important;
 }

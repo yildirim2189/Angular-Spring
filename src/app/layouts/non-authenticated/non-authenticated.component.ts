@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from 'src/app/services/theme.service';
 
@@ -9,20 +9,20 @@ import { ThemeService } from 'src/app/services/theme.service';
 })
 export class NonAuthenticatedComponent implements OnInit {
 
-  constructor(private translate: TranslateService, private themeService: ThemeService) { }
+  @HostBinding('class.theme-bg-1') bgColor = true;
+  themes = this.themeService.getThemes();
+
+  constructor(private translateService: TranslateService, private themeService: ThemeService) { }
 
   ngOnInit() {
-    
+    this.themeService.setTheme(this.themeService.getTheme());    
   }
 
-  changeTr(){
-    this.translate.use('tr');
-  }
-  changeEn(){
-    this.translate.use('en');
+  changeLanguage(language: string){
+    this.translateService.use(language);
   }
 
-  changeTheme(theme){
+  changeTheme(theme: string){
     this.themeService.setTheme(theme);
   }
 }

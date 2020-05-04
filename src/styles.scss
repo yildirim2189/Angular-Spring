@@ -5,6 +5,41 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.mt-20{
+    margin-top: 20px !important;
+}
+
+.ml-20{
+    margin-left: 20px !important;
+}
+
+.my-20{
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+.d-flex{
+    display: flex!important;
+}
+
+.w-100{
+    width: 100% !important;
+}
+
+.p-20{
+    padding: 20px;
+}
+
+input[type="time"]::-webkit-clear-button {
+    display: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 /* width */
 ::-webkit-scrollbar {

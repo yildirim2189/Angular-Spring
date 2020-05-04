@@ -1,2 +1,9 @@
-<h1>PAGE NOT FOUND</h1>
-<h2>EHEHEHE SO FUNNY</h2>
+<div fxLayout="row" class="text-center">
+    <h1>404</h1>
+    <h2>{{'error.404.title' | translate}}</h2>
+    <p class="mt-20">{{'error.404.description' | translate}}</p>
+    <button mat-raised-button color="accent" class="mt-20" [routerLink]="['/']" routerLinkActive="router-link-active" >
+        <mat-icon>home</mat-icon>
+        <span style="margin-left: 15px;">{{'returnHome' | translate }}</span>
+    </button>
+</div>

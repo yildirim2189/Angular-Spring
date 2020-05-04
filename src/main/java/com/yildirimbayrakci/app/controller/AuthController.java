@@ -1,5 +1,7 @@
 package com.yildirimbayrakci.app.controller;
 
+import com.yildirimbayrakci.app.exception.EmailAlreadyExistsException;
+import com.yildirimbayrakci.app.exception.UsernameAlreadyExistsException;
 import com.yildirimbayrakci.app.model.Task;
 import com.yildirimbayrakci.app.model.User;
 import com.yildirimbayrakci.app.payload.request.LoginRequest;
@@ -9,6 +11,8 @@ import com.yildirimbayrakci.app.payload.response.MessageResponse;
 import com.yildirimbayrakci.app.security.jwt.JwtUtils;
 import com.yildirimbayrakci.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,6 +39,9 @@ public class AuthController {
 
   @Autowired
   JwtUtils jwtUtils;
+
+  @Autowired
+  MessageSource messageSource;
 
   @PostMapping("/login")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
@@ -57,14 +64,12 @@ public class AuthController {
 
 
   @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest){
+  public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) throws UsernameAlreadyExistsException, EmailAlreadyExistsException {
     if(userService.existsByUsername(signUpRequest.getUsername())){
-      return ResponseEntity.badRequest()
-        .body(new MessageResponse("Error: Username already exists!"));
+      throw new UsernameAlreadyExistsException();
     }
     if(userService.existsByEmail(signUpRequest.getEmail())){
-      return ResponseEntity.badRequest()
-        .body(new MessageResponse("Error: Email is already in user!"));
+      throw new EmailAlreadyExistsException();
     }
 
     // Create new user account and save

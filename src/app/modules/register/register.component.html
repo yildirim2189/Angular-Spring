@@ -1,66 +1,81 @@
-<div style="width: 100%; padding: 20px; display: flex;">
-    <form *ngIf="!isLoggedIn" name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" novalidate>
-    <h3>{{'register.title' | translate }}</h3>
+<div class="d-flex w-100 p-20">
+    <form  name="form" #f="ngForm" [mustMatch]="['password', 'retypePassword']" (ngSubmit)="f.form.valid && onSubmit(f)" novalidate class="w-100">
+        <h3>{{'register.title' | translate }}</h3>
         <!-- Username input -->
         <div>
-            <mat-form-field appearance="standard" style="min-width: 500px;">
+            <mat-form-field appearance="standard" color="accent" class="input-field">
             <mat-label>{{ 'username.title' | translate }}</mat-label>
                 <input matInput name="username" placeholder="{{'username.placeholder' | translate}}" minlength="3" maxlength="20"
-                [(ngModel)]="form.username" required #username="ngModel"
-               >
+                [(ngModel)]="form.username" required #username="ngModel">
                 <mat-hint>{{'username.hint' | translate }}</mat-hint>
                 <mat-hint align="end">{{ username.value?.length || 0 }}/20</mat-hint>
+                <mat-error align="end" *ngIf="username.errors?.required">{{'username.required' | translate}}</mat-error>
+                <mat-error align="end" *ngIf="username.errors?.minlength">{{'username.minLength' | translate}}</mat-error>
+                <mat-error align="end" *ngIf="username.errors?.maxlenght">{{'username.maxLength' | translate}}</mat-error>
+                <mat-error align="end" *ngIf="username.errors?.exists">{{'username.exists' | translate}}</mat-error>
             </mat-form-field>
-            <div *ngIf="username.errors?.exists" class="alert alert-danger my-2">{{'username.exists' | translate}}</div>
-            <div *ngIf="f.submitted && username.invalid">
-                <div class="alert alert-danger" *ngIf="username.errors.required">{{'username.required' | translate}}</div>
-                <div class="alert alert-danger" *ngIf="username.errors.minlength">{{'username.minLength' | translate}}</div>
-                <div class="alert alert-danger" *ngIf="username.errors.maxlenght">{{'username.maxLength' | translate}}</div>
-            </div>
         </div>
-
         <!-- Email input -->
         <div>
-            <mat-form-field appearance="standard" style="min-width: 500px;">
+            <mat-form-field appearance="standard" color="accent" class="input-field">
             <mat-label>Email</mat-label>
                 <input matInput type="email" email name="email" placeholder="{{'email.placeholder' | translate}}"
-                [(ngModel)]="form.email" required #email="ngModel"
-                >
+                [(ngModel)]="form.email" required #email="ngModel">
                 <mat-hint>{{ 'email.hint' | translate }}</mat-hint>
+                <mat-error align="end" *ngIf="email.errors?.required">{{ 'email.required' | translate }}</mat-error>
+                <mat-error align="end" *ngIf="email.errors?.email">{{ 'email.notValid' | translate }}</mat-error>
             </mat-form-field>
-            <div *ngIf="f.submitted && email.invalid" class="alert alert-danger">
-                <div *ngIf="email.errors.required">{{ 'email.required' | translate }}</div>
-                <div *ngIf="email.errors.email">{{ 'email.notValid' | translate }}</div>
-            </div>
         </div>
-        
         <!-- Password input -->
         <div>
-            <mat-form-field appearance="standard" style="min-width: 500px;">
+            <mat-form-field appearance="standard" color="accent" class="input-field">
                 <mat-label>{{'password.title' | translate}}</mat-label>
-                <input type="password" name="password" matInput placeholder="{{'password.placeholder | translate'}}" minlength="6"
-                [(ngModel)]="form.password" required #password="ngModel"
-                >
+                <input [type]="hidePassword ? 'password' : 'text'" name="password" matInput placeholder="{{'password.placeholder' | translate }}" minlength="6"
+                [(ngModel)]="form.password" required #password="ngModel">
+                <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'">
+                    <mat-icon matTooltip="{{hidePassword ? ('password.show' | translate) : ('password.hide' | translate)}}">
+                        {{hidePassword ? 'visibility_off' : 'visibility'}}
+                    </mat-icon>
+                </button>
                 <mat-hint>{{ 'password.hint' | translate }}</mat-hint>
+                <mat-error align="end" *ngIf="password.errors?.required">{{ 'password.required' | translate }}</mat-error>
+                <mat-error align="end" *ngIf="password.errors?.minlength">{{ 'password.minLength' | translate }}</mat-error>
             </mat-form-field>
-            <div *ngIf="f.submitted && password.invalid" class="alert alert-danger">
-                <div *ngIf="password.errors.required">{{ 'password.required' | translate }}</div>
-                <div *ngIf="password.errors.minlength">{{ 'password.minLength' | translate }}</div>
-            </div>
         </div>
         <div>
-            <mat-progress-bar mode="indeterminate" *ngIf="isShowSpinner" class="mt-4"></mat-progress-bar>
+            <mat-form-field appearance="standard" color="accent" class="input-field">
+                <mat-label>{{ 'password.confirm.title' | translate }}</mat-label>
+                <input [type]="hidePassword ? 'password' : 'text'" name="retypePassword" matInput placeholder="{{'password.confirm.placeholder' | translate }}"
+                [(ngModel)]="form.retypePassword" required  #retypePassword="ngModel">
+                <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'">
+                    <mat-icon matTooltip="{{hidePassword ? ('password.show' | translate) : ('password.hide' | translate)}}">
+                        {{hidePassword ? 'visibility_off' : 'visibility'}}
+                    </mat-icon>
+                </button>
+                <mat-hint>{{ 'password.confirm.hint' | translate }}</mat-hint>
+                <mat-error align="end" *ngIf="retypePassword.errors?.required">{{ 'password.confirm.required' | translate }}</mat-error>
+                <mat-error align="end" *ngIf="retypePassword.errors?.mustMatch">{{ 'password.confirm.mustMatch' | translate }}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="mt-20 input-field" *ngIf="isShowSpinner">
+            <mat-progress-bar mode="indeterminate" ></mat-progress-bar>
         </div>
         <div>
-            <button color="primary" mat-raised-button style="width: 200px;" class="mt-4 mb-4" [disabled]="isRegisterButtonDisabled">
+            <button color="primary" mat-raised-button class="mt-20 input-field" [disabled]="isRegisterButtonDisabled">
                 {{ 'register.title' | translate }}
             </button>
         </div>
-        <div *ngIf="f.submitted && isSignUpFailed">
-            <mat-card>{{ 'register.error' | translate }} {{ errorMessage }}</mat-card>
+        <div  class="mt-20 input-field" *ngIf="f.submitted && isSignUpFailed" >
+            <mat-error fxFlex fxLayoutGap="10px" fxLayoutAlign="start center">
+                <mat-icon >error</mat-icon>
+                <span>{{ 'register.error' | translate }}: {{ errorService.getErrorMessage(errorCode) }}</span>
+            </mat-error>
         </div>
-        <div *ngIf="isSuccessful">
-            <mat-card>{{ 'register.success' | translate }}</mat-card>
+        <div *ngIf="isSuccessful" class="input-field mt-20">
+            <div fxFlex fxLayoutGap="10px" fxLayoutAlign="start center">
+                <mat-icon color="accent">check_circle</mat-icon>
+                <span>{{ 'register.success' | translate }}</span>
+            </div>
         </div>
     </form>
 </div>

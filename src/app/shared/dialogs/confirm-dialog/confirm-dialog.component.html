@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+  {{data.confirmText}}
+</div>
+<div mat-dialog-actions class="mt-20" fxLayout="row" fxLayoutGap="20px">
+  <button mat-raised-button color="warn" (click)="onClick()" fxFlex="" cdkFocusInitial >{{data.confirmYesTitle}}</button>
+  <button mat-raised-button (click)="onNoClick()" fxFlex="" >{{ 'cancel' | translate }}</button>
+</div>

@@ -190,8 +190,9 @@ public class User {
       tasks = new ArrayList<Task>();
       return false;
     }else{
-      tasks.removeIf(task -> task.getId() == taskId);
-      return true;
+      if(tasks.removeIf(task -> task.getId().longValue() == taskId))
+        return true;
+      return false;
     }
   }
 }
